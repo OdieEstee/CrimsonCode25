@@ -33,7 +33,7 @@ const Layer: React.FC<LayerProps> = ({ id, type, params, onRemove, onUpdate }) =
             onChange={(e) => handleParamChange("xMax", e.target.value)}
           />
         </label>
-        {Object.keys(params).filter(paramName => paramName !== "xMin" && paramName !== "xMax" && paramName !== "color").map((paramName) => (
+        {Object.keys(params).filter(paramName => paramName !== "xMin" && paramName !== "xMax" && paramName !== "color" && paramName !== "originX" && paramName !== "originY").map((paramName) => (
           <label key={paramName}>
             {paramName}:
             <input
@@ -49,6 +49,20 @@ const Layer: React.FC<LayerProps> = ({ id, type, params, onRemove, onUpdate }) =
             type="color"
             value={params.color || "#000000"}
             onChange={(e) => handleParamChange("color", e.target.value)}
+          />
+        </label>
+        <label>
+          Position:
+          <input
+            type="text"
+            value={params.originX}
+            onChange={(e) => handleParamChange("originX", e.target.value)}
+          />
+           ,
+          <input
+            type="text"
+            value={params.originY}
+            onChange={(e) => handleParamChange("originY", e.target.value)}
           />
         </label>
       </div>

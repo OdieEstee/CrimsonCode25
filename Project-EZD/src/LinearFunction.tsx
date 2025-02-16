@@ -6,9 +6,11 @@ interface LinearFunctionProps {
   xMax: number;
   m: number;
   color: string;
+  originX: number;
+  originY: number;
 }
 
-const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, m, color }) => {
+const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, m, color, originX, originY }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -16,9 +18,9 @@ const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Translate the origin to the center of the canvas
+    // Translate the origin to the specified coordinates
     ctx.save();
-    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.translate(originX, originY);
 
     // Draw the linear function y = mx
     ctx.beginPath();
@@ -35,7 +37,7 @@ const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, 
 
     // Restore the original coordinate system
     ctx.restore();
-  }, [canvasRef, xMin, xMax, m, color]);
+  }, [canvasRef, xMin, xMax, m, color, originX, originY]);
 
   return null;
 };
