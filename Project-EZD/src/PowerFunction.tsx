@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 
-interface LinearFunctionProps {
+interface PowerFunctionProps {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   xMin: number;
   xMax: number;
-  m: number;
+  a: number;
+  b: number;
   color: string;
   originX: number;
   originY: number;
@@ -12,7 +13,7 @@ interface LinearFunctionProps {
   thickness: number;
 }
 
-const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, m, color, originX, originY, rotation, thickness }) => {
+const PowerFunction: React.FC<PowerFunctionProps> = ({ canvasRef, xMin, xMax, a, b, color, originX, originY, rotation, thickness }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -28,10 +29,10 @@ const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, 
     // Set the line thickness
     ctx.lineWidth = thickness;
 
-    // Draw the linear function y = mx
+    // Draw the quadratic function y = ax^b
     ctx.beginPath();
-    for (let x = xMin; x <= xMax; x++) {
-      const y = m * x;
+    for (let x = xMin; x <= xMax; x += 0.1) {
+      const y = a * Math.pow(x, b);
       if (x === xMin) {
         ctx.moveTo(x, -y); // Invert y to match the canvas coordinate system
       } else {
@@ -43,9 +44,9 @@ const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, 
 
     // Restore the original coordinate system
     ctx.restore();
-  }, [canvasRef, xMin, xMax, m, color, originX, originY, rotation, thickness]);
+  }, [canvasRef, xMin, xMax, a, b, color, originX, originY, rotation, thickness]);
 
   return null;
 };
 
-export default LinearFunction;
+export default PowerFunction;

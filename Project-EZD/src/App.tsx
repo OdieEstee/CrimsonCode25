@@ -25,10 +25,18 @@ const App: React.FC = () => {
   const addFunction = (type) => {
     let newFunction;
     let newLayer;
+    const canvas = canvasRef.current;
+    const originX = canvas ? canvas.width / 2 : width / 2;
+    const originY = canvas ? canvas.height / 2 : height / 2;
+
     switch (type) {
-      case "linear":
-        newFunction = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX: 400, originY: 300, rotation: 0 } };
-        newLayer = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX: 400, originY: 300, rotation: 0 } };
+      case "y=mx":
+        newFunction = { id: functions.length + 1, type: "y=mx", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX, originY, rotation: 0, thickness: 1 } };
+        newLayer = { id: functions.length + 1, type: "y=mx", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX, originY, rotation: 0, thickness: 1 } };
+        break;
+      case "y=ax^b":
+        newFunction = { id: functions.length + 1, type: "y=ax^b", params: { xMin: -100, xMax: 100, a: 1, b: 2, color: "#000000", originX, originY, rotation: 0, thickness: 1 } };
+        newLayer = { id: functions.length + 1, type: "y=ax^b", params: { xMin: -100, xMax: 100, a: 1, b: 2, color: "#000000", originX, originY, rotation: 0, thickness: 1 } };
         break;
       // Add cases for other function types if needed
       default:
@@ -54,6 +62,17 @@ const App: React.FC = () => {
   const removeLayer = (id) => {
     setFunctions(functions.filter(func => func.id !== id));
     setLayers(layers.filter(layer => layer.id !== id));
+  };
+
+  const copyLayer = (id) => {
+    const layerToCopy = layers.find(layer => layer.id === id);
+    if (layerToCopy) {
+      const newId = functions.length + 1;
+      const newFunction = { ...layerToCopy, id: newId, params: { ...layerToCopy.params } };
+      const newLayer = { ...layerToCopy, id: newId, params: { ...layerToCopy.params } };
+      setFunctions([newFunction, ...functions]);
+      setLayers([newLayer, ...layers]);
+    }
   };
 
   return (
@@ -82,12 +101,13 @@ const App: React.FC = () => {
         <button onClick={() => setShowDropdown(!showDropdown)}>Add</button>
         {showDropdown && (
           <div className="dropdown-content">
-            <button onClick={() => addFunction("linear")}>y = mx</button>
+            <button onClick={() => addFunction("y=mx")}>y=mx</button>
+            <button onClick={() => addFunction("y=ax^b")}>y=ax^b</button>
             {/* Add more buttons for other function types if needed */}
           </div>
         )}
       </div>
-      <LayerList layers={layers} onRemoveLayer={removeLayer} onUpdateLayer={updateLayer} />
+      <LayerList layers={layers} onRemoveLayer={removeLayer} onCopyLayer={copyLayer} onUpdateLayer={updateLayer} />
       <GlobalTools />
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, forwardRef } from "react";
 import LinearFunction from "./LinearFunction";
+import QuadraticFunction from "./QuadraticFunction";
 
 const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHeight, functions }, ref) => {
   const canvasRef = ref || useRef<HTMLCanvasElement | null>(null);
@@ -42,11 +43,12 @@ const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHe
     // Draw the functions from bottom to top of the layer list
     functions.slice().reverse().forEach(func => {
       switch (func.type) {
-        case "linear":
-          const { xMin, xMax, m, color, originX, originY, rotation } = func.params;
+        case "y=mx":
+          const { xMin, xMax, m, color, originX, originY, rotation, thickness } = func.params;
           ctx.save();
           ctx.translate(originX, originY);
           ctx.rotate((rotation * Math.PI) / 180);
+          ctx.lineWidth = thickness;
           ctx.beginPath();
           for (let x = xMin; x <= xMax; x++) {
             const y = m * x;
@@ -57,6 +59,25 @@ const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHe
             }
           }
           ctx.strokeStyle = color || "red";
+          ctx.stroke();
+          ctx.restore();
+          break;
+        case "y=ax^b":
+          const { a, b } = func.params;
+          ctx.save();
+          ctx.translate(func.params.originX, func.params.originY);
+          ctx.rotate((func.params.rotation * Math.PI) / 180);
+          ctx.lineWidth = func.params.thickness;
+          ctx.beginPath();
+          for (let x = func.params.xMin; x <= func.params.xMax; x += 0.1) {
+            const y = a * Math.pow(x, b);
+            if (x === func.params.xMin) {
+              ctx.moveTo(x, -y); // Invert y to match the canvas coordinate system
+            } else {
+              ctx.lineTo(x, -y); // Invert y to match the canvas coordinate system
+            }
+          }
+          ctx.strokeStyle = func.params.color || "red";
           ctx.stroke();
           ctx.restore();
           break;

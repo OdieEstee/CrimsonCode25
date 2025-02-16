@@ -4,10 +4,11 @@ import Layer from "./Layer";
 interface LayerListProps {
   layers: Array<{ id: number; type: string; params: any }>;
   onRemoveLayer: (id: number) => void;
+  onCopyLayer: (id: number) => void;
   onUpdateLayer: (id: number, params: any) => void;
 }
 
-const LayerList: React.FC<LayerListProps> = ({ layers, onRemoveLayer, onUpdateLayer }) => {
+const LayerList: React.FC<LayerListProps> = ({ layers, onRemoveLayer, onCopyLayer, onUpdateLayer }) => {
   return (
     <div className="layer-list">
       {layers.map(layer => (
@@ -17,6 +18,7 @@ const LayerList: React.FC<LayerListProps> = ({ layers, onRemoveLayer, onUpdateLa
           type={layer.type}
           params={layer.params}
           onRemove={onRemoveLayer}
+          onCopy={onCopyLayer}
           onUpdate={onUpdateLayer}
         />
       ))}

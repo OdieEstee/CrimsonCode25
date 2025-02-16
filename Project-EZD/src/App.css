@@ -15,7 +15,7 @@
 
 .file-button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #000080;
   color: white;
   border: none;
   border-radius: 100px;
@@ -37,16 +37,27 @@
 }
 
 .global-button {
-  padding: 10px 10px;
+  padding: 0; /* Ensure no padding */
   background-color: #007bff;
-  color: rgb(255, 255, 255);
+  color: white;
   border: none;
-  border-radius: 0px;
+  border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px; /* Set a fixed width */
+  height: 60px; /* Set a fixed height */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
-  
+
 .global-button:hover {
   background-color: #0056b3;
+}
+
+.icon {
+  width: 60px; /* Increase icon size */
+  height: 60px; /* Increase icon size */
 }
 
 .layer-list {
@@ -74,7 +85,7 @@
 }
 
 .layer button {
-  background-color: #ff4d4d;
+  background-color: #000080;
   color: white;
   border: none;
   border-radius: 3px;
@@ -82,7 +93,7 @@
 }
 
 .layer button:hover {
-  background-color: #ff1a1a;
+  background-color: #0056b3;
 }
 
 .layer label {
@@ -129,29 +140,4 @@
 
 .dropdown:hover .dropdown-content {
   display: block;
-}
-
-.controls {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.control-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.control-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.control-button:hover {
-  background-color: #0056b3;
 }
