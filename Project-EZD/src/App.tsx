@@ -27,8 +27,8 @@ const App: React.FC = () => {
     let newLayer;
     switch (type) {
       case "linear":
-        newFunction = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX: 400, originY: 300 } };
-        newLayer = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX: 400, originY: 300 } };
+        newFunction = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX: 400, originY: 300, rotation: 0 } };
+        newLayer = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000", originX: 400, originY: 300, rotation: 0 } };
         break;
       // Add cases for other function types if needed
       default:

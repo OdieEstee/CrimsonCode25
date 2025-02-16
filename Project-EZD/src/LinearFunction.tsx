@@ -8,9 +8,10 @@ interface LinearFunctionProps {
   color: string;
   originX: number;
   originY: number;
+  rotation: number;
 }
 
-const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, m, color, originX, originY }) => {
+const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, m, color, originX, originY, rotation }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -18,9 +19,10 @@ const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Translate the origin to the specified coordinates
+    // Translate the origin to the specified coordinates and apply rotation
     ctx.save();
     ctx.translate(originX, originY);
+    ctx.rotate((rotation * Math.PI) / 180);
 
     // Draw the linear function y = mx
     ctx.beginPath();
@@ -37,7 +39,7 @@ const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, 
 
     // Restore the original coordinate system
     ctx.restore();
-  }, [canvasRef, xMin, xMax, m, color, originX, originY]);
+  }, [canvasRef, xMin, xMax, m, color, originX, originY, rotation]);
 
   return null;
 };

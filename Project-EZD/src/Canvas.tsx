@@ -43,9 +43,10 @@ const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHe
     functions.slice().reverse().forEach(func => {
       switch (func.type) {
         case "linear":
-          const { xMin, xMax, m, color, originX, originY } = func.params;
+          const { xMin, xMax, m, color, originX, originY, rotation } = func.params;
           ctx.save();
           ctx.translate(originX, originY);
+          ctx.rotate((rotation * Math.PI) / 180);
           ctx.beginPath();
           for (let x = xMin; x <= xMax; x++) {
             const y = m * x;
