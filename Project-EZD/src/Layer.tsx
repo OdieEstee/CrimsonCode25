@@ -13,7 +13,7 @@ const Layer: React.FC<LayerProps> = ({ id, type, params, onRemove, onCopy, onUpd
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleParamChange = (paramName: string, value: string) => {
-    const newParams = { ...params, [paramName]: value === "" ? "" : parseFloat(value) };
+    const newParams = { ...params, [paramName]: paramName === "color" ? value : value === "" ? "" : parseFloat(value) };
     onUpdate(id, newParams);
   };
 
