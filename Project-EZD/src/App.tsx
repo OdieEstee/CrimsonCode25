@@ -1,37 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useRef } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set canvas size
+    canvas.width = 500;
+    canvas.height = 500;
+
+    // Draw the function y = x
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "black";
+    ctx.beginPath();
+
+    for (let x = 0; x < canvas.width; x++) {
+      let y = x; // y = x function
+      ctx.lineTo(x, canvas.height - y); // Invert y-axis
+    }
+
+    ctx.stroke();
+  }, []);
 
   return (
-    <>
-      
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button id="install"> Install Me! </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="test text">
-        This is a test
-      </p>
-    </>
-  )
-}
+    <div className="App">
+      <h1>Math Art App</h1>
+      <canvas ref={canvasRef} style={{ border: "1px solid black" }} />
+    </div>
+  );
+};
 
-export default App
+export default App;

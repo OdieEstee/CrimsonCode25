@@ -8,6 +8,7 @@ var ASSETS_TO_CACHE = [
     "/src/main.css",
     "/src/vite-env.d.ts",
     "/service-worker.ts",
+    "/service-worker.js",
 ];
 self.addEventListener("install", function (event) {
     console.log("Service Worker installing...");

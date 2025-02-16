@@ -9,6 +9,7 @@ const ASSETS_TO_CACHE = [
     "/src/main.css",
     "/src/vite-env.d.ts",
     "/service-worker.ts",
+    "/service-worker.js",
 ];
 
 self.addEventListener("install", (event) => {
@@ -18,12 +19,12 @@ self.addEventListener("install", (event) => {
             return cache.addAll(ASSETS_TO_CACHE);
         })
     );
-    (self as unknown as ServiceWorkerGlobalScope).skipWaiting();
+    self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
     console.log("Service Worker activated.");
-    (self as unknown as ServiceWorkerGlobalScope).clients.claim();
+    self.clients.claim();
 });
 
 // Intercept fetch requests and serve from cache if offline
