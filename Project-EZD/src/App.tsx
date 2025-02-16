@@ -1,36 +1,39 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
+import Canvas from "./Canvas";
+import FileTools from "./FileTools";
+import GlobalTools from "./GlobalTools";
 
 const App: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [bgColor, setBgColor] = useState("transparent");
+  const [width, setWidth] = useState(800);
+  const [height, setHeight] = useState(600);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
 
-    // Set canvas size
-    canvas.width = 500;
-    canvas.height = 500;
+  const handleImport = (json) => {
+    setWidth(json.width);
+    setHeight(json.height);
+    setBgColor(json.bgColor || "transparent");
+  };
 
-    // Draw the function y = x
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "black";
-    ctx.beginPath();
 
-    for (let x = 0; x < canvas.width; x++) {
-      let y = x; // y = x function
-      ctx.lineTo(x, canvas.height - y); // Invert y-axis
-    }
 
-    ctx.stroke();
-  }, []);
 
   return (
     <div className="App">
-      <h1>Math Art App</h1>
-      <canvas ref={canvasRef} style={{ border: "1px solid black" }} />
+      <h1>Project EZD</h1>
+      <FileTools canvasRef={canvasRef} bgColor={bgColor} onImport={handleImport} />
+      <Canvas
+        ref={canvasRef}
+        bgColor={bgColor}
+        setBgColor={setBgColor}
+        width={width}
+        setWidth={setWidth}
+        height={height}
+        setHeight={setHeight}
+      />
+      <GlobalTools />
     </div>
   );
 };
