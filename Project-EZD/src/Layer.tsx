@@ -10,7 +10,7 @@ interface LayerProps {
 
 const Layer: React.FC<LayerProps> = ({ id, type, params, onRemove, onUpdate }) => {
   const handleParamChange = (paramName: string, value: string) => {
-    const newParams = { ...params, [paramName]: parseFloat(value) };
+    const newParams = { ...params, [paramName]: paramName === "color" ? value : parseFloat(value) };
     onUpdate(id, newParams);
   };
 
@@ -33,7 +33,7 @@ const Layer: React.FC<LayerProps> = ({ id, type, params, onRemove, onUpdate }) =
             onChange={(e) => handleParamChange("xMax", e.target.value)}
           />
         </label>
-        {Object.keys(params).filter(paramName => paramName !== "xMin" && paramName !== "xMax").map((paramName) => (
+        {Object.keys(params).filter(paramName => paramName !== "xMin" && paramName !== "xMax" && paramName !== "color").map((paramName) => (
           <label key={paramName}>
             {paramName}:
             <input
@@ -43,6 +43,14 @@ const Layer: React.FC<LayerProps> = ({ id, type, params, onRemove, onUpdate }) =
             />
           </label>
         ))}
+        <label>
+          Color:
+          <input
+            type="color"
+            value={params.color || "#000000"}
+            onChange={(e) => handleParamChange("color", e.target.value)}
+          />
+        </label>
       </div>
     </div>
   );

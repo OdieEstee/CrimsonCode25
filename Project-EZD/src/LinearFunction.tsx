@@ -5,9 +5,10 @@ interface LinearFunctionProps {
   xMin: number;
   xMax: number;
   m: number;
+  color: string;
 }
 
-const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, m }) => {
+const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, m, color }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -29,12 +30,12 @@ const LinearFunction: React.FC<LinearFunctionProps> = ({ canvasRef, xMin, xMax, 
         ctx.lineTo(x, -y); // Invert y to match the canvas coordinate system
       }
     }
-    ctx.strokeStyle = "red";
+    ctx.strokeStyle = color;
     ctx.stroke();
 
     // Restore the original coordinate system
     ctx.restore();
-  }, [canvasRef, xMin, xMax, m]);
+  }, [canvasRef, xMin, xMax, m, color]);
 
   return null;
 };

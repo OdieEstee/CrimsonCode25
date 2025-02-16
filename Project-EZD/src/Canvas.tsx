@@ -43,7 +43,7 @@ const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHe
     functions.slice().reverse().forEach(func => {
       switch (func.type) {
         case "linear":
-          const { xMin, xMax, m } = func.params;
+          const { xMin, xMax, m, color } = func.params;
           ctx.save();
           ctx.translate(canvas.width / 2, canvas.height / 2);
           ctx.beginPath();
@@ -55,7 +55,7 @@ const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHe
               ctx.lineTo(x, -y); // Invert y to match the canvas coordinate system
             }
           }
-          ctx.strokeStyle = "red";
+          ctx.strokeStyle = color || "red";
           ctx.stroke();
           ctx.restore();
           break;

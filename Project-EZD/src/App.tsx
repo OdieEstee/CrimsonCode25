@@ -18,6 +18,8 @@ const App: React.FC = () => {
     setWidth(json.width);
     setHeight(json.height);
     setBgColor(json.bgColor || "transparent");
+    setFunctions(json.functions || []);
+    setLayers(json.layers || []);
   };
 
   const addFunction = (type) => {
@@ -25,8 +27,8 @@ const App: React.FC = () => {
     let newLayer;
     switch (type) {
       case "linear":
-        newFunction = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1 } };
-        newLayer = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1 } };
+        newFunction = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000" } };
+        newLayer = { id: functions.length + 1, type: "linear", params: { xMin: -100, xMax: 100, m: 1, color: "#000000" } };
         break;
       // Add cases for other function types if needed
       default:
@@ -57,7 +59,15 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <h1>Project EZD</h1>
-      <FileTools canvasRef={canvasRef} bgColor={bgColor} onImport={handleImport} />
+      <FileTools
+        canvasRef={canvasRef}
+        bgColor={bgColor}
+        width={width}
+        height={height}
+        functions={functions}
+        layers={layers}
+        onImport={handleImport}
+      />
       <Canvas
         ref={canvasRef}
         bgColor={bgColor}
