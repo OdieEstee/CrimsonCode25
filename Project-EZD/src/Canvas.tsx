@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, forwardRef } from "react";
-import MathFunction from "./MathFunction";
+import LinearFunction from "./LinearFunction";
 
-const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHeight, functions, updateFunction }, ref) => {
+const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHeight, functions }, ref) => {
   const canvasRef = ref || useRef<HTMLCanvasElement | null>(null);
 
   // Function to create a new canvas
@@ -32,9 +32,44 @@ const Canvas = forwardRef(({ bgColor, setBgColor, width, setWidth, height, setHe
     }
   };
 
+  const drawFunctions = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Draw the functions from bottom to top of the layer list
+    functions.slice().reverse().forEach(func => {
+      switch (func.type) {
+        case "linear":
+          const { xMin, xMax, m } = func.params;
+          ctx.save();
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.beginPath();
+          for (let x = xMin; x <= xMax; x++) {
+            const y = m * x;
+            if (x === xMin) {
+              ctx.moveTo(x, -y); // Invert y to match the canvas coordinate system
+            } else {
+              ctx.lineTo(x, -y); // Invert y to match the canvas coordinate system
+            }
+          }
+          ctx.strokeStyle = "red";
+          ctx.stroke();
+          ctx.restore();
+          break;
+        // Add cases for other function types if needed
+        default:
+          break;
+      }
+    });
+  };
+
   useEffect(() => {
     createNewCanvas();
-  }, [width, height, bgColor]);
+    drawFunctions();
+  }, [width, height, bgColor, functions]);
 
   return (
     <div className="flex flex-col items-center p-4">
